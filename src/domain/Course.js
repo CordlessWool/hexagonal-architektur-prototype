@@ -1,7 +1,9 @@
 const { Pupil, Teacher, Person } = require("./Persons")
 
 class Course {
-	constructor(
+	constructor({
+		//some uniq value
+		uuid,
 		creater,
 		name,
 		teachers,
@@ -9,12 +11,13 @@ class Course {
 			color,
 
 		*/
-	){
+	}){
 		if(typeof name !== 'string') throw new Error('name have to be string')
 		if(!Array.isArray(teachers) || !(teachers instanceof Teacher)) throw new Error('teachers need to be an Array of Teachers')
 		if(!(creater instanceof Person)) throw new Error('creater is not a person')
 		if(!creater.hasPermission('CREATE_COURSE')) throw new Error('missing permission');
 
+		this.uuid = uuid;
 		this.name = name;
 		this.teachers = teachers;
 		this.lessons = [];
@@ -37,11 +40,22 @@ class Course {
 		this.pupils = pupils;
 	}
 
+	duplicateCourse(){
+		const n = this.getCopy();
+		n.lessons = [];
+		n.referenceCourse(this);
+		this.referenceCourse(n);
+	}
+
 	getCopy(){
 		return this.getOwnPropertiyNames.reduce((acc, attr) => {
 			acc[attr] = this[attr];
 			return acc;
 		}, {})
+	}
+
+	getJSON(){
+		return JSON.parse(JSON.stringify(this));
 	}
 }
 

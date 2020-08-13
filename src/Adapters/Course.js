@@ -1,11 +1,10 @@
 const Adapter = require("./Adapter");
 
 class Course extends Adapter{
-	static save(id, data, options){
-		if(id){
+	static save(data, options){
+		if(data.uuid){
 			//do an update
 		}
-
 		//create
 	}
 
@@ -14,7 +13,7 @@ class Course extends Adapter{
 	}
 
 	static find(params){
-
+		//find a course and get user data from user
 	}
 }
 

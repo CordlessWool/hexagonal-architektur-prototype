@@ -1,0 +1,1 @@
+//init API or other connection to outher world
